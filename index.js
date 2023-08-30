@@ -16,8 +16,30 @@ function boxClicked(e) {
     if(!spaces[id]){
         spaces[id] = currentPlayer
         e.target.innerText = currentPlayer
-
+        if(playerHasWon()){
+            playerText = `${currentPlayer} has won!`
+        }
         currentPlayer = currentPlayer == X_text ? O_text : X_text
+    }
+}
+
+const winningCombos = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [2,4,6]
+]
+
+function playerHasWon() {
+    for (const condition of winningCombos){
+        let [a,b,c] = condition
+        if(spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])){
+            return [a,b,c];
+        }
     }
 }
 
@@ -27,6 +49,8 @@ function restart(){
     boxes.forEach(box => {
         box.innerText = ''
     })
+
+    playerText = 'Tic Tac Toe'
 
     currentPlayer = X_text
 }
